@@ -9,6 +9,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Security.Cryptography;
 
 namespace TULIPS
 {
@@ -40,9 +41,12 @@ namespace TULIPS
 
         private void but_reset_Click(object sender, EventArgs e)
         {
+            this.AutoValidate = AutoValidate.Disable; // Temporarily disable validation
             txb_userName.Text = "";
             txb_password.Text = "";
             lblMessage.Text = "";
+            errorProvider1.Clear(); // clear all error messages
+            this.AutoValidate = AutoValidate.EnableAllowFocusChange; // Re-enable validation
         }
 
         private void but_login_Click(object sender, EventArgs e)
@@ -68,6 +72,31 @@ namespace TULIPS
                 return;
             }
 
+            // Username validation
+            if (username.Length < 3)
+            {
+                lblMessage.Text = "Username must be at least 3 characters long.";
+                lblMessage.ForeColor = Color.Red;
+                lblMessage.Visible = true;
+                return;
+            }
+
+            if (username.Length > 30)
+            {
+                lblMessage.Text = "Username cannot be longer than 30 characters.";
+                lblMessage.ForeColor = Color.Red;
+                lblMessage.Visible = true;
+                return;
+            }
+
+            if (!Regex.IsMatch(username, @"^(?=.*[A-Za-z])[A-Za-z0-9]+$"))
+            {
+                lblMessage.Text = "Username must contain only letters or a mix of letters and numbers.";
+                lblMessage.ForeColor = Color.Red;
+                lblMessage.Visible = true;
+                return;
+            }
+
             string connString = Properties.Settings.Default.Tulips_localDbConnectionString;
 
             using (SqlConnection con = new SqlConnection(connString))
@@ -83,9 +112,31 @@ namespace TULIPS
                 {
                     string dbPassword = reader["Password"].ToString();
                     string role = reader["Role"].ToString();
+
                     reader.Close();
 
-                    if (dbPassword == password)
+                    // Check if password is hashed (simple check)
+                    bool isHashed = dbPassword.Length == 64 && Regex.IsMatch(dbPassword, @"\A\b[0-9a-fA-F]+\b\Z");
+
+                    if (!isHashed)
+                    {
+                        // Hash the existing password
+                        string hashedAdminPassword = PasswordHasher.HashPassword(dbPassword);
+
+                        // Update database
+                        string updateQuery = "UPDATE Users SET Password=@p WHERE Username=@u";
+                        using (SqlCommand updateCmd = new SqlCommand(updateQuery, con))
+                        {
+                            updateCmd.Parameters.AddWithValue("@p", hashedAdminPassword);
+                            updateCmd.Parameters.AddWithValue("@u", username);
+                            updateCmd.ExecuteNonQuery();
+                        }
+
+                        dbPassword = hashedAdminPassword; // update the variable to continue login
+                    }
+
+                    // Now check login
+                    if (PasswordHasher.VerifyPassword(password, dbPassword))
                     {
                         if (role == "Admin")
                         {
@@ -105,42 +156,14 @@ namespace TULIPS
                         lblMessage.ForeColor = Color.Red;
                         lblMessage.Visible = true;
                     }
-                }
-                else
-                {
-                    reader.Close();
 
-                    if (username.ToLower().Contains("admin"))
-                    {
-                        lblMessage.Text = "Invalid admin username!";
-                        lblMessage.ForeColor = Color.Red;
-                        lblMessage.Visible = true;
-                        return;
-                    }
-
-                    if (Regex.IsMatch(username, @"^\d+$"))
-                    {
-                        lblMessage.Text = "Invalid username: cannot be only numbers!";
-                        lblMessage.ForeColor = Color.Red;
-                        lblMessage.Visible = true;
-                        return;
-                    }
-
-                    // Auto-register customer
-                    string insertQuery = "INSERT INTO Users (Username, Password, Role) VALUES (@u, @p, 'Customer')";
-                    SqlCommand insertCmd = new SqlCommand(insertQuery, con);
-                    insertCmd.Parameters.AddWithValue("@u", username);
-                    insertCmd.Parameters.AddWithValue("@p", password);
-                    insertCmd.ExecuteNonQuery();
-
-                    CustomerForm customer = new CustomerForm(username);
-                    customer.Show();
-                    this.Hide();
                 }
             }
-        }
-
-
+            }
+        
+                
+            
+        
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
             {
@@ -176,11 +199,13 @@ namespace TULIPS
 
         private void txb_userName_Validating(object sender, CancelEventArgs e)
         {
+            if (this.AutoValidate == AutoValidate.Disable) return; // allow reset to skip validation
+
             string error = null;
             if (((Control)sender).Text.Trim().Length == 0)
             {
                 error = "This field is required";
-                e.Cancel = true;
+                e.Cancel = true; // stop leaving if empty
             }
             errorProvider1.SetError((Control)sender, error);
         }
@@ -192,14 +217,17 @@ namespace TULIPS
 
         private void txb_password_validating(object sender, CancelEventArgs e)
         {
+            if (this.AutoValidate == AutoValidate.Disable) return; // allow reset to skip validation
+
             string error = null;
             if (((Control)sender).Text.Trim().Length == 0)
             {
                 error = "This field is required";
-                e.Cancel = true;
+                e.Cancel = true; // stop leaving if empty
             }
             errorProvider1.SetError((Control)sender, error);
         }
     }
     }
+    
 

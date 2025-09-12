@@ -42,7 +42,6 @@ namespace TULIPS
             this.but_login = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -57,9 +56,9 @@ namespace TULIPS
             this.panel1.Controls.Add(this.but_close);
             this.panel1.Controls.Add(this.groupBox1);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(395, 179);
+            this.panel1.Location = new System.Drawing.Point(381, 126);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1057, 767);
+            this.panel1.Size = new System.Drawing.Size(1057, 764);
             this.panel1.TabIndex = 1;
             // 
             // but_close
@@ -85,7 +84,7 @@ namespace TULIPS
             this.groupBox1.Controls.Add(this.txb_password);
             this.groupBox1.Controls.Add(this.but_login);
             this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Location = new System.Drawing.Point(43, 185);
+            this.groupBox1.Location = new System.Drawing.Point(44, 162);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(965, 552);
             this.groupBox1.TabIndex = 7;
@@ -103,6 +102,7 @@ namespace TULIPS
             // 
             // but_reset
             // 
+            this.but_reset.CausesValidation = false;
             this.but_reset.Font = new System.Drawing.Font("Tahoma", 9.900001F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.but_reset.ForeColor = System.Drawing.Color.HotPink;
             this.but_reset.Location = new System.Drawing.Point(484, 410);
@@ -178,25 +178,11 @@ namespace TULIPS
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Mistral", 26.1F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.HotPink;
-            this.label1.Location = new System.Drawing.Point(412, 17);
+            this.label1.Location = new System.Drawing.Point(409, 44);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(194, 105);
             this.label1.TabIndex = 0;
             this.label1.Text = "Login";
-            // 
-            // label4
-            // 
-            this.label4.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label4.BackColor = System.Drawing.Color.Transparent;
-            this.label4.Font = new System.Drawing.Font("Vladimir Script", 21.9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.ForeColor = System.Drawing.Color.Salmon;
-            this.label4.Location = new System.Drawing.Point(573, 50);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(694, 101);
-            this.label4.TabIndex = 8;
-            this.label4.Text = "Welcome to Tulips Shop";
-            this.label4.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // errorProvider1
             // 
@@ -210,7 +196,6 @@ namespace TULIPS
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1873, 1177);
-            this.Controls.Add(this.label4);
             this.Controls.Add(this.panel1);
             this.MinimumSize = new System.Drawing.Size(800, 600);
             this.Name = "LoginForm";
@@ -238,7 +223,6 @@ namespace TULIPS
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button but_close;
         private System.Windows.Forms.Button but_login;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button but_reset;
         private System.Windows.Forms.Label lblMessage;
         private System.Windows.Forms.ErrorProvider errorProvider1;
