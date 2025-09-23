@@ -18,23 +18,3 @@ _ReSharper*/
 # VS Code
 .vscode/
 
-# Build folders
-bin/
-obj/
-
-# SQL Server files
-*.mdf
-*.ldf
-
-# NuGet packages
-packages/
-
-# Logs and temp files
-*.log
-*.tmp
-*.cache
-
-# DLLs from third-party libraries
-*.dll
-*.mdf
-*.ldf
