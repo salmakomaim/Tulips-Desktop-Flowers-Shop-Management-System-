@@ -111,8 +111,12 @@ namespace TULIPS
             this.numRedRoseQty = new Guna.UI2.WinForms.Guna2NumericUpDown();
             this.picRedRose = new Guna.UI2.WinForms.Guna2PictureBox();
             this.PanelCart = new Guna.UI2.WinForms.Guna2Panel();
+            this.label2 = new System.Windows.Forms.Label();
+            this.cmbPaymentMethod = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.txbAddress = new System.Windows.Forms.MaskedTextBox();
             this.label26 = new System.Windows.Forms.Label();
-            this.btnEditCart = new Guna.UI2.WinForms.Guna2Button();
+            this.btnRemoveItem = new Guna.UI2.WinForms.Guna2Button();
             this.btnClearCart = new Guna.UI2.WinForms.Guna2Button();
             this.btnPlaceOrder = new Guna.UI2.WinForms.Guna2Button();
             this.btnViewReceipt = new Guna.UI2.WinForms.Guna2Button();
@@ -121,8 +125,12 @@ namespace TULIPS
             this.ItemName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ProductID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label25 = new System.Windows.Forms.Label();
             this.CartTimer = new System.Windows.Forms.Timer(this.components);
+            this.printDialog1 = new System.Windows.Forms.PrintDialog();
+            this.printDocument2 = new System.Drawing.Printing.PrintDocument();
+            this.printPreviewDialog1 = new System.Windows.Forms.PrintPreviewDialog();
             this.guna2Panel1.SuspendLayout();
             this.FlowLayoutPanel.SuspendLayout();
             this.guna2GradientPanel12.SuspendLayout();
@@ -169,8 +177,8 @@ namespace TULIPS
             // 
             this.lblWelcome.AutoSize = true;
             this.lblWelcome.Font = new System.Drawing.Font("Lucida Handwriting", 14.1F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblWelcome.ForeColor = System.Drawing.Color.Indigo;
-            this.lblWelcome.Location = new System.Drawing.Point(470, 4);
+            this.lblWelcome.ForeColor = System.Drawing.Color.HotPink;
+            this.lblWelcome.Location = new System.Drawing.Point(249, 9);
             this.lblWelcome.Name = "lblWelcome";
             this.lblWelcome.Size = new System.Drawing.Size(919, 63);
             this.lblWelcome.TabIndex = 0;
@@ -186,7 +194,7 @@ namespace TULIPS
             this.guna2Panel1.ForeColor = System.Drawing.Color.Indigo;
             this.guna2Panel1.Location = new System.Drawing.Point(0, 0);
             this.guna2Panel1.Name = "guna2Panel1";
-            this.guna2Panel1.Size = new System.Drawing.Size(2535, 67);
+            this.guna2Panel1.Size = new System.Drawing.Size(2857, 86);
             this.guna2Panel1.TabIndex = 1;
             // 
             // FlowLayoutPanel
@@ -210,9 +218,9 @@ namespace TULIPS
             this.FlowLayoutPanel.Controls.Add(this.PanelCart);
             this.FlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.FlowLayoutPanel.ForeColor = System.Drawing.Color.Indigo;
-            this.FlowLayoutPanel.Location = new System.Drawing.Point(0, 67);
+            this.FlowLayoutPanel.Location = new System.Drawing.Point(0, 86);
             this.FlowLayoutPanel.Name = "FlowLayoutPanel";
-            this.FlowLayoutPanel.Size = new System.Drawing.Size(2535, 1628);
+            this.FlowLayoutPanel.Size = new System.Drawing.Size(2857, 1605);
             this.FlowLayoutPanel.TabIndex = 2;
             // 
             // btnCart
@@ -222,12 +230,12 @@ namespace TULIPS
             this.btnCart.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnCart.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
             this.btnCart.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btnCart.FillColor = System.Drawing.Color.Indigo;
+            this.btnCart.FillColor = System.Drawing.Color.HotPink;
             this.btnCart.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCart.ForeColor = System.Drawing.Color.White;
-            this.btnCart.Location = new System.Drawing.Point(1652, 40);
+            this.btnCart.Location = new System.Drawing.Point(1572, 34);
             this.btnCart.Name = "btnCart";
-            this.btnCart.Size = new System.Drawing.Size(156, 55);
+            this.btnCart.Size = new System.Drawing.Size(204, 61);
             this.btnCart.TabIndex = 3;
             this.btnCart.Text = "🛒 Cart";
             this.btnCart.Click += new System.EventHandler(this.btnCart_Click);
@@ -250,6 +258,7 @@ namespace TULIPS
             // 
             this.lblYellowTulipsPrice.AutoSize = true;
             this.lblYellowTulipsPrice.Font = new System.Drawing.Font("Times New Roman", 9.900001F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblYellowTulipsPrice.ForeColor = System.Drawing.Color.Indigo;
             this.lblYellowTulipsPrice.Location = new System.Drawing.Point(108, 274);
             this.lblYellowTulipsPrice.Name = "lblYellowTulipsPrice";
             this.lblYellowTulipsPrice.Size = new System.Drawing.Size(146, 38);
@@ -278,12 +287,13 @@ namespace TULIPS
             this.btnAddYellowTulips.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.btnAddYellowTulips.FillColor = System.Drawing.Color.White;
             this.btnAddYellowTulips.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddYellowTulips.ForeColor = System.Drawing.Color.Indigo;
+            this.btnAddYellowTulips.ForeColor = System.Drawing.Color.HotPink;
             this.btnAddYellowTulips.Location = new System.Drawing.Point(0, 390);
             this.btnAddYellowTulips.Name = "btnAddYellowTulips";
             this.btnAddYellowTulips.Size = new System.Drawing.Size(377, 45);
             this.btnAddYellowTulips.TabIndex = 4;
             this.btnAddYellowTulips.Text = "Add to Cart";
+            this.btnAddYellowTulips.Click += new System.EventHandler(this.btnAddYellowTulips_Click);
             // 
             // numYellowTulipsQty
             // 
@@ -306,6 +316,7 @@ namespace TULIPS
             0,
             0,
             0});
+            this.numYellowTulipsQty.ValueChanged += new System.EventHandler(this.numYellowTulipsQty_ValueChanged);
             // 
             // picYellowTulips
             // 
@@ -365,12 +376,13 @@ namespace TULIPS
             this.btnAddLilies.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.btnAddLilies.FillColor = System.Drawing.Color.White;
             this.btnAddLilies.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddLilies.ForeColor = System.Drawing.Color.Indigo;
+            this.btnAddLilies.ForeColor = System.Drawing.Color.HotPink;
             this.btnAddLilies.Location = new System.Drawing.Point(0, 390);
             this.btnAddLilies.Name = "btnAddLilies";
             this.btnAddLilies.Size = new System.Drawing.Size(377, 45);
             this.btnAddLilies.TabIndex = 4;
             this.btnAddLilies.Text = "Add to Cart";
+            this.btnAddLilies.Click += new System.EventHandler(this.btnAddLilies_Click);
             // 
             // numLiliesQty
             // 
@@ -393,6 +405,7 @@ namespace TULIPS
             0,
             0,
             0});
+            this.numLiliesQty.ValueChanged += new System.EventHandler(this.numLiliesQty_ValueChanged);
             // 
             // picLilies
             // 
@@ -424,7 +437,7 @@ namespace TULIPS
             // 
             this.lblSpecialTulipsPrice.AutoSize = true;
             this.lblSpecialTulipsPrice.Font = new System.Drawing.Font("Times New Roman", 9.900001F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSpecialTulipsPrice.ForeColor = System.Drawing.Color.Indigo;
+            this.lblSpecialTulipsPrice.ForeColor = System.Drawing.Color.HotPink;
             this.lblSpecialTulipsPrice.Location = new System.Drawing.Point(108, 274);
             this.lblSpecialTulipsPrice.Name = "lblSpecialTulipsPrice";
             this.lblSpecialTulipsPrice.Size = new System.Drawing.Size(146, 38);
@@ -454,12 +467,13 @@ namespace TULIPS
             this.btnAddSpecialTulips.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.btnAddSpecialTulips.FillColor = System.Drawing.Color.White;
             this.btnAddSpecialTulips.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddSpecialTulips.ForeColor = System.Drawing.Color.Indigo;
+            this.btnAddSpecialTulips.ForeColor = System.Drawing.Color.HotPink;
             this.btnAddSpecialTulips.Location = new System.Drawing.Point(0, 390);
             this.btnAddSpecialTulips.Name = "btnAddSpecialTulips";
             this.btnAddSpecialTulips.Size = new System.Drawing.Size(377, 45);
             this.btnAddSpecialTulips.TabIndex = 4;
             this.btnAddSpecialTulips.Text = "Add to Cart";
+            this.btnAddSpecialTulips.Click += new System.EventHandler(this.btnAddSpecialTulips_Click);
             // 
             // numSpecialTulipsQty
             // 
@@ -482,6 +496,7 @@ namespace TULIPS
             0,
             0,
             0});
+            this.numSpecialTulipsQty.ValueChanged += new System.EventHandler(this.numSpecialTulipsQty_ValueChanged);
             // 
             // picSpecialTulips
             // 
@@ -513,6 +528,7 @@ namespace TULIPS
             // 
             this.lblBlueRosePrice.AutoSize = true;
             this.lblBlueRosePrice.Font = new System.Drawing.Font("Times New Roman", 9.900001F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblBlueRosePrice.ForeColor = System.Drawing.Color.HotPink;
             this.lblBlueRosePrice.Location = new System.Drawing.Point(108, 274);
             this.lblBlueRosePrice.Name = "lblBlueRosePrice";
             this.lblBlueRosePrice.Size = new System.Drawing.Size(137, 38);
@@ -541,12 +557,13 @@ namespace TULIPS
             this.btnAddBlueRose.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.btnAddBlueRose.FillColor = System.Drawing.Color.White;
             this.btnAddBlueRose.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddBlueRose.ForeColor = System.Drawing.Color.Indigo;
+            this.btnAddBlueRose.ForeColor = System.Drawing.Color.HotPink;
             this.btnAddBlueRose.Location = new System.Drawing.Point(0, 390);
             this.btnAddBlueRose.Name = "btnAddBlueRose";
             this.btnAddBlueRose.Size = new System.Drawing.Size(377, 45);
             this.btnAddBlueRose.TabIndex = 4;
             this.btnAddBlueRose.Text = "Add to Cart";
+            this.btnAddBlueRose.Click += new System.EventHandler(this.btnAddBlueRose_Click);
             // 
             // numBlueRoseQty
             // 
@@ -569,6 +586,7 @@ namespace TULIPS
             0,
             0,
             0});
+            this.numBlueRoseQty.ValueChanged += new System.EventHandler(this.numBlueRoseQty_ValueChanged);
             // 
             // picBlueRose
             // 
@@ -600,7 +618,7 @@ namespace TULIPS
             // 
             this.lblPinkRosePrice.AutoSize = true;
             this.lblPinkRosePrice.Font = new System.Drawing.Font("Times New Roman", 9.900001F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPinkRosePrice.ForeColor = System.Drawing.Color.Indigo;
+            this.lblPinkRosePrice.ForeColor = System.Drawing.Color.HotPink;
             this.lblPinkRosePrice.Location = new System.Drawing.Point(108, 274);
             this.lblPinkRosePrice.Name = "lblPinkRosePrice";
             this.lblPinkRosePrice.Size = new System.Drawing.Size(146, 38);
@@ -630,12 +648,13 @@ namespace TULIPS
             this.btnAddPinkRose.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.btnAddPinkRose.FillColor = System.Drawing.Color.White;
             this.btnAddPinkRose.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddPinkRose.ForeColor = System.Drawing.Color.Indigo;
+            this.btnAddPinkRose.ForeColor = System.Drawing.Color.HotPink;
             this.btnAddPinkRose.Location = new System.Drawing.Point(0, 390);
             this.btnAddPinkRose.Name = "btnAddPinkRose";
             this.btnAddPinkRose.Size = new System.Drawing.Size(377, 45);
             this.btnAddPinkRose.TabIndex = 4;
             this.btnAddPinkRose.Text = "Add to Cart";
+            this.btnAddPinkRose.Click += new System.EventHandler(this.btnAddPinkRose_Click);
             // 
             // numPinkRoseQty
             // 
@@ -658,6 +677,7 @@ namespace TULIPS
             0,
             0,
             0});
+            this.numPinkRoseQty.ValueChanged += new System.EventHandler(this.numPinkRoseQty_ValueChanged);
             // 
             // picPinkRose
             // 
@@ -689,7 +709,7 @@ namespace TULIPS
             // 
             this.lblPurpleRosePrice.AutoSize = true;
             this.lblPurpleRosePrice.Font = new System.Drawing.Font("Times New Roman", 9.900001F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPurpleRosePrice.ForeColor = System.Drawing.Color.Indigo;
+            this.lblPurpleRosePrice.ForeColor = System.Drawing.Color.HotPink;
             this.lblPurpleRosePrice.Location = new System.Drawing.Point(108, 274);
             this.lblPurpleRosePrice.Name = "lblPurpleRosePrice";
             this.lblPurpleRosePrice.Size = new System.Drawing.Size(146, 38);
@@ -718,12 +738,13 @@ namespace TULIPS
             this.btnAddPurpleRose.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.btnAddPurpleRose.FillColor = System.Drawing.Color.White;
             this.btnAddPurpleRose.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddPurpleRose.ForeColor = System.Drawing.Color.Indigo;
+            this.btnAddPurpleRose.ForeColor = System.Drawing.Color.HotPink;
             this.btnAddPurpleRose.Location = new System.Drawing.Point(0, 390);
             this.btnAddPurpleRose.Name = "btnAddPurpleRose";
             this.btnAddPurpleRose.Size = new System.Drawing.Size(377, 45);
             this.btnAddPurpleRose.TabIndex = 4;
             this.btnAddPurpleRose.Text = "Add to Cart";
+            this.btnAddPurpleRose.Click += new System.EventHandler(this.btnAddPurpleRose_Click);
             // 
             // numPurpleRoseQty
             // 
@@ -746,6 +767,7 @@ namespace TULIPS
             0,
             0,
             0});
+            this.numPurpleRoseQty.ValueChanged += new System.EventHandler(this.numPurpleRoseQty_ValueChanged);
             // 
             // picPurpleRose
             // 
@@ -777,6 +799,7 @@ namespace TULIPS
             // 
             this.lblDaisiesPrice.AutoSize = true;
             this.lblDaisiesPrice.Font = new System.Drawing.Font("Times New Roman", 9.900001F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDaisiesPrice.ForeColor = System.Drawing.Color.HotPink;
             this.lblDaisiesPrice.Location = new System.Drawing.Point(108, 274);
             this.lblDaisiesPrice.Name = "lblDaisiesPrice";
             this.lblDaisiesPrice.Size = new System.Drawing.Size(146, 38);
@@ -805,12 +828,13 @@ namespace TULIPS
             this.btnAddDaisies.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.btnAddDaisies.FillColor = System.Drawing.Color.White;
             this.btnAddDaisies.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddDaisies.ForeColor = System.Drawing.Color.Indigo;
+            this.btnAddDaisies.ForeColor = System.Drawing.Color.HotPink;
             this.btnAddDaisies.Location = new System.Drawing.Point(0, 390);
             this.btnAddDaisies.Name = "btnAddDaisies";
             this.btnAddDaisies.Size = new System.Drawing.Size(377, 45);
             this.btnAddDaisies.TabIndex = 4;
             this.btnAddDaisies.Text = "Add to Cart";
+            this.btnAddDaisies.Click += new System.EventHandler(this.btnAddDaisies_Click);
             // 
             // numDaisiesQty
             // 
@@ -833,6 +857,7 @@ namespace TULIPS
             0,
             0,
             0});
+            this.numDaisiesQty.ValueChanged += new System.EventHandler(this.numDaisiesQty_ValueChanged);
             // 
             // picDaisies
             // 
@@ -864,6 +889,7 @@ namespace TULIPS
             // 
             this.lblOrchidsPrice.AutoSize = true;
             this.lblOrchidsPrice.Font = new System.Drawing.Font("Times New Roman", 9.900001F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblOrchidsPrice.ForeColor = System.Drawing.Color.HotPink;
             this.lblOrchidsPrice.Location = new System.Drawing.Point(108, 274);
             this.lblOrchidsPrice.Name = "lblOrchidsPrice";
             this.lblOrchidsPrice.Size = new System.Drawing.Size(163, 38);
@@ -892,12 +918,13 @@ namespace TULIPS
             this.btnAddOrchids.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.btnAddOrchids.FillColor = System.Drawing.Color.White;
             this.btnAddOrchids.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddOrchids.ForeColor = System.Drawing.Color.Indigo;
+            this.btnAddOrchids.ForeColor = System.Drawing.Color.HotPink;
             this.btnAddOrchids.Location = new System.Drawing.Point(0, 390);
             this.btnAddOrchids.Name = "btnAddOrchids";
             this.btnAddOrchids.Size = new System.Drawing.Size(377, 45);
             this.btnAddOrchids.TabIndex = 4;
             this.btnAddOrchids.Text = "Add to Cart";
+            this.btnAddOrchids.Click += new System.EventHandler(this.btnAddOrchids_Click);
             // 
             // numOrchidsQty
             // 
@@ -920,6 +947,7 @@ namespace TULIPS
             0,
             0,
             0});
+            this.numOrchidsQty.ValueChanged += new System.EventHandler(this.numOrchidsQty_ValueChanged);
             // 
             // picOrchids
             // 
@@ -951,7 +979,7 @@ namespace TULIPS
             // 
             this.lblWhiteRosePrice.AutoSize = true;
             this.lblWhiteRosePrice.Font = new System.Drawing.Font("Times New Roman", 9.900001F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblWhiteRosePrice.ForeColor = System.Drawing.Color.Indigo;
+            this.lblWhiteRosePrice.ForeColor = System.Drawing.Color.HotPink;
             this.lblWhiteRosePrice.Location = new System.Drawing.Point(108, 274);
             this.lblWhiteRosePrice.Name = "lblWhiteRosePrice";
             this.lblWhiteRosePrice.Size = new System.Drawing.Size(146, 38);
@@ -970,7 +998,6 @@ namespace TULIPS
             this.lblWhiteRose.TabIndex = 5;
             this.lblWhiteRose.Text = "White Rose";
             this.lblWhiteRose.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblWhiteRose.Click += new System.EventHandler(this.label8_Click);
             // 
             // btnAddWhiteRose
             // 
@@ -982,12 +1009,13 @@ namespace TULIPS
             this.btnAddWhiteRose.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.btnAddWhiteRose.FillColor = System.Drawing.Color.White;
             this.btnAddWhiteRose.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddWhiteRose.ForeColor = System.Drawing.Color.Indigo;
+            this.btnAddWhiteRose.ForeColor = System.Drawing.Color.HotPink;
             this.btnAddWhiteRose.Location = new System.Drawing.Point(0, 390);
             this.btnAddWhiteRose.Name = "btnAddWhiteRose";
             this.btnAddWhiteRose.Size = new System.Drawing.Size(377, 45);
             this.btnAddWhiteRose.TabIndex = 4;
             this.btnAddWhiteRose.Text = "Add to Cart";
+            this.btnAddWhiteRose.Click += new System.EventHandler(this.btnAddWhiteRose_Click);
             // 
             // numWhiteRoseQty
             // 
@@ -1010,6 +1038,7 @@ namespace TULIPS
             0,
             0,
             0});
+            this.numWhiteRoseQty.ValueChanged += new System.EventHandler(this.numWhiteRoseQty_ValueChanged);
             // 
             // picWhiteRose
             // 
@@ -1036,13 +1065,12 @@ namespace TULIPS
             this.guna2GradientPanel3.Name = "guna2GradientPanel3";
             this.guna2GradientPanel3.Size = new System.Drawing.Size(377, 435);
             this.guna2GradientPanel3.TabIndex = 7;
-            this.guna2GradientPanel3.Paint += new System.Windows.Forms.PaintEventHandler(this.guna2GradientPanel3_Paint);
             // 
             // lblPinkTulipsPrice
             // 
             this.lblPinkTulipsPrice.AutoSize = true;
             this.lblPinkTulipsPrice.Font = new System.Drawing.Font("Times New Roman", 9.900001F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPinkTulipsPrice.ForeColor = System.Drawing.Color.Indigo;
+            this.lblPinkTulipsPrice.ForeColor = System.Drawing.Color.HotPink;
             this.lblPinkTulipsPrice.Location = new System.Drawing.Point(119, 274);
             this.lblPinkTulipsPrice.Name = "lblPinkTulipsPrice";
             this.lblPinkTulipsPrice.Size = new System.Drawing.Size(146, 38);
@@ -1073,12 +1101,13 @@ namespace TULIPS
             this.btnAddPinkTulips.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.btnAddPinkTulips.FillColor = System.Drawing.Color.White;
             this.btnAddPinkTulips.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddPinkTulips.ForeColor = System.Drawing.Color.Indigo;
+            this.btnAddPinkTulips.ForeColor = System.Drawing.Color.HotPink;
             this.btnAddPinkTulips.Location = new System.Drawing.Point(0, 390);
             this.btnAddPinkTulips.Name = "btnAddPinkTulips";
             this.btnAddPinkTulips.Size = new System.Drawing.Size(377, 45);
             this.btnAddPinkTulips.TabIndex = 4;
             this.btnAddPinkTulips.Text = "Add to Cart";
+            this.btnAddPinkTulips.Click += new System.EventHandler(this.btnAddPinkTulips_Click);
             // 
             // numPinkTulipsQty
             // 
@@ -1101,6 +1130,7 @@ namespace TULIPS
             0,
             0,
             0});
+            this.numPinkTulipsQty.ValueChanged += new System.EventHandler(this.numPinkTulipsQty_ValueChanged);
             // 
             // picPinkTulips
             // 
@@ -1132,7 +1162,7 @@ namespace TULIPS
             // 
             this.lblSunFlowerPrice.AutoSize = true;
             this.lblSunFlowerPrice.Font = new System.Drawing.Font("Times New Roman", 9.900001F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSunFlowerPrice.ForeColor = System.Drawing.Color.Indigo;
+            this.lblSunFlowerPrice.ForeColor = System.Drawing.Color.HotPink;
             this.lblSunFlowerPrice.Location = new System.Drawing.Point(108, 274);
             this.lblSunFlowerPrice.Name = "lblSunFlowerPrice";
             this.lblSunFlowerPrice.Size = new System.Drawing.Size(146, 38);
@@ -1162,12 +1192,13 @@ namespace TULIPS
             this.btnAddSunFlower.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.btnAddSunFlower.FillColor = System.Drawing.Color.White;
             this.btnAddSunFlower.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddSunFlower.ForeColor = System.Drawing.Color.Indigo;
+            this.btnAddSunFlower.ForeColor = System.Drawing.Color.HotPink;
             this.btnAddSunFlower.Location = new System.Drawing.Point(0, 390);
             this.btnAddSunFlower.Name = "btnAddSunFlower";
             this.btnAddSunFlower.Size = new System.Drawing.Size(377, 45);
             this.btnAddSunFlower.TabIndex = 4;
             this.btnAddSunFlower.Text = "Add to Cart";
+            this.btnAddSunFlower.Click += new System.EventHandler(this.btnAddSunFlower_Click);
             // 
             // numSunFlowerQty
             // 
@@ -1190,6 +1221,7 @@ namespace TULIPS
             0,
             0,
             0});
+            this.numSunFlowerQty.ValueChanged += new System.EventHandler(this.numSunFlowerQty_ValueChanged);
             // 
             // picSunFlower
             // 
@@ -1221,6 +1253,7 @@ namespace TULIPS
             // 
             this.lblRedRosePrice.AutoSize = true;
             this.lblRedRosePrice.Font = new System.Drawing.Font("Times New Roman", 9.900001F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblRedRosePrice.ForeColor = System.Drawing.Color.HotPink;
             this.lblRedRosePrice.Location = new System.Drawing.Point(108, 274);
             this.lblRedRosePrice.Name = "lblRedRosePrice";
             this.lblRedRosePrice.Size = new System.Drawing.Size(146, 38);
@@ -1249,12 +1282,13 @@ namespace TULIPS
             this.btnAddRedRose.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.btnAddRedRose.FillColor = System.Drawing.Color.White;
             this.btnAddRedRose.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddRedRose.ForeColor = System.Drawing.Color.Indigo;
+            this.btnAddRedRose.ForeColor = System.Drawing.Color.HotPink;
             this.btnAddRedRose.Location = new System.Drawing.Point(0, 390);
             this.btnAddRedRose.Name = "btnAddRedRose";
             this.btnAddRedRose.Size = new System.Drawing.Size(377, 45);
             this.btnAddRedRose.TabIndex = 4;
             this.btnAddRedRose.Text = "Add to Cart";
+            this.btnAddRedRose.Click += new System.EventHandler(this.btnAddRedRose_Click);
             // 
             // numRedRoseQty
             // 
@@ -1277,6 +1311,7 @@ namespace TULIPS
             0,
             0,
             0});
+            this.numRedRoseQty.ValueChanged += new System.EventHandler(this.numRedRoseQty_ValueChanged);
             // 
             // picRedRose
             // 
@@ -1292,46 +1327,91 @@ namespace TULIPS
             // 
             // PanelCart
             // 
+            this.PanelCart.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.PanelCart.Controls.Add(this.label2);
+            this.PanelCart.Controls.Add(this.cmbPaymentMethod);
+            this.PanelCart.Controls.Add(this.label1);
+            this.PanelCart.Controls.Add(this.txbAddress);
             this.PanelCart.Controls.Add(this.label26);
-            this.PanelCart.Controls.Add(this.btnEditCart);
+            this.PanelCart.Controls.Add(this.btnRemoveItem);
             this.PanelCart.Controls.Add(this.btnClearCart);
             this.PanelCart.Controls.Add(this.btnPlaceOrder);
             this.PanelCart.Controls.Add(this.btnViewReceipt);
             this.PanelCart.Controls.Add(this.lblTotal);
             this.PanelCart.Controls.Add(this.dgvCart);
             this.PanelCart.Controls.Add(this.label25);
-            this.PanelCart.Dock = System.Windows.Forms.DockStyle.Right;
             this.PanelCart.Location = new System.Drawing.Point(1808, 0);
+            this.PanelCart.Margin = new System.Windows.Forms.Padding(0);
             this.PanelCart.Name = "PanelCart";
-            this.PanelCart.Size = new System.Drawing.Size(849, 1585);
+            this.PanelCart.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.PanelCart.Size = new System.Drawing.Size(1018, 1600);
             this.PanelCart.TabIndex = 15;
             this.PanelCart.Visible = false;
             this.PanelCart.Paint += new System.Windows.Forms.PaintEventHandler(this.PanelCart_Paint);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(3, 1019);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(320, 33);
+            this.label2.TabIndex = 10;
+            this.label2.Text = "Choose Payment Method:";
+            // 
+            // cmbPaymentMethod
+            // 
+            this.cmbPaymentMethod.FormattingEnabled = true;
+            this.cmbPaymentMethod.Location = new System.Drawing.Point(3, 1055);
+            this.cmbPaymentMethod.Name = "cmbPaymentMethod";
+            this.cmbPaymentMethod.Size = new System.Drawing.Size(721, 41);
+            this.cmbPaymentMethod.TabIndex = 9;
+            this.cmbPaymentMethod.SelectedIndexChanged += new System.EventHandler(this.cmbPaymentMethod_SelectedIndexChanged);
+            // 
+            // label1
+            // 
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(3, 904);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(329, 43);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Enter your Address:";
+            // 
+            // txbAddress
+            // 
+            this.txbAddress.Location = new System.Drawing.Point(0, 950);
+            this.txbAddress.Name = "txbAddress";
+            this.txbAddress.Size = new System.Drawing.Size(724, 40);
+            this.txbAddress.TabIndex = 8;
+            this.txbAddress.MaskInputRejected += new System.Windows.Forms.MaskInputRejectedEventHandler(this.txbAddress_MaskInputRejected);
             // 
             // label26
             // 
             this.label26.AutoSize = true;
             this.label26.Font = new System.Drawing.Font("Script MT Bold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label26.Location = new System.Drawing.Point(114, 1523);
+            this.label26.ForeColor = System.Drawing.Color.HotPink;
+            this.label26.Location = new System.Drawing.Point(192, 1513);
             this.label26.Name = "label26";
             this.label26.Size = new System.Drawing.Size(600, 48);
             this.label26.TabIndex = 7;
             this.label26.Text = "Thank You For Choosing Our Shop!";
             // 
-            // btnEditCart
+            // btnRemoveItem
             // 
-            this.btnEditCart.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.btnEditCart.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.btnEditCart.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.btnEditCart.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btnEditCart.FillColor = System.Drawing.Color.Indigo;
-            this.btnEditCart.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnEditCart.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnEditCart.Location = new System.Drawing.Point(0, 1147);
-            this.btnEditCart.Name = "btnEditCart";
-            this.btnEditCart.Size = new System.Drawing.Size(849, 60);
-            this.btnEditCart.TabIndex = 6;
-            this.btnEditCart.Text = "Edit Cart";
+            this.btnRemoveItem.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.btnRemoveItem.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.btnRemoveItem.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btnRemoveItem.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btnRemoveItem.FillColor = System.Drawing.Color.HotPink;
+            this.btnRemoveItem.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRemoveItem.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnRemoveItem.Location = new System.Drawing.Point(47, 1149);
+            this.btnRemoveItem.Name = "btnRemoveItem";
+            this.btnRemoveItem.Size = new System.Drawing.Size(898, 60);
+            this.btnRemoveItem.TabIndex = 6;
+            this.btnRemoveItem.Text = "Remove Item";
+            this.btnRemoveItem.Click += new System.EventHandler(this.btnRemoveItem_Click);
             // 
             // btnClearCart
             // 
@@ -1339,14 +1419,15 @@ namespace TULIPS
             this.btnClearCart.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnClearCart.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
             this.btnClearCart.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btnClearCart.FillColor = System.Drawing.Color.Indigo;
+            this.btnClearCart.FillColor = System.Drawing.Color.HotPink;
             this.btnClearCart.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnClearCart.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnClearCart.Location = new System.Drawing.Point(-3, 1238);
+            this.btnClearCart.Location = new System.Drawing.Point(47, 1325);
             this.btnClearCart.Name = "btnClearCart";
-            this.btnClearCart.Size = new System.Drawing.Size(849, 60);
+            this.btnClearCart.Size = new System.Drawing.Size(898, 60);
             this.btnClearCart.TabIndex = 5;
             this.btnClearCart.Text = "Clear Cart";
+            this.btnClearCart.Click += new System.EventHandler(this.btnClearCart_Click);
             // 
             // btnPlaceOrder
             // 
@@ -1357,11 +1438,12 @@ namespace TULIPS
             this.btnPlaceOrder.FillColor = System.Drawing.Color.Indigo;
             this.btnPlaceOrder.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnPlaceOrder.ForeColor = System.Drawing.Color.White;
-            this.btnPlaceOrder.Location = new System.Drawing.Point(0, 1337);
+            this.btnPlaceOrder.Location = new System.Drawing.Point(50, 1420);
             this.btnPlaceOrder.Name = "btnPlaceOrder";
-            this.btnPlaceOrder.Size = new System.Drawing.Size(849, 60);
+            this.btnPlaceOrder.Size = new System.Drawing.Size(895, 60);
             this.btnPlaceOrder.TabIndex = 4;
             this.btnPlaceOrder.Text = "Confirm Order";
+            this.btnPlaceOrder.Click += new System.EventHandler(this.btnPlaceOrder_Click);
             // 
             // btnViewReceipt
             // 
@@ -1372,17 +1454,19 @@ namespace TULIPS
             this.btnViewReceipt.FillColor = System.Drawing.Color.Indigo;
             this.btnViewReceipt.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnViewReceipt.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnViewReceipt.Location = new System.Drawing.Point(0, 1433);
+            this.btnViewReceipt.Location = new System.Drawing.Point(44, 1235);
             this.btnViewReceipt.Name = "btnViewReceipt";
-            this.btnViewReceipt.Size = new System.Drawing.Size(849, 60);
+            this.btnViewReceipt.Size = new System.Drawing.Size(901, 60);
             this.btnViewReceipt.TabIndex = 3;
             this.btnViewReceipt.Text = "View Recipt";
+            this.btnViewReceipt.Click += new System.EventHandler(this.btnViewReceipt_Click);
             // 
             // lblTotal
             // 
             this.lblTotal.AutoSize = true;
             this.lblTotal.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTotal.Location = new System.Drawing.Point(4, 950);
+            this.lblTotal.ForeColor = System.Drawing.Color.HotPink;
+            this.lblTotal.Location = new System.Drawing.Point(3, 802);
             this.lblTotal.Name = "lblTotal";
             this.lblTotal.Size = new System.Drawing.Size(196, 36);
             this.lblTotal.TabIndex = 2;
@@ -1395,14 +1479,15 @@ namespace TULIPS
             this.dgvCart.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ItemName,
             this.Quantity,
-            this.Price});
+            this.Price,
+            this.ProductID});
             this.dgvCart.Location = new System.Drawing.Point(0, 58);
             this.dgvCart.Name = "dgvCart";
             this.dgvCart.RowHeadersWidth = 102;
             this.dgvCart.RowTemplate.Height = 42;
-            this.dgvCart.Size = new System.Drawing.Size(849, 846);
+            this.dgvCart.Size = new System.Drawing.Size(1015, 741);
             this.dgvCart.TabIndex = 1;
-            this.dgvCart.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            this.dgvCart.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCart_CellContentClick);
             // 
             // ItemName
             // 
@@ -1425,22 +1510,50 @@ namespace TULIPS
             this.Price.Name = "Price";
             this.Price.Width = 250;
             // 
+            // ProductID
+            // 
+            this.ProductID.HeaderText = "Product ID";
+            this.ProductID.MinimumWidth = 12;
+            this.ProductID.Name = "ProductID";
+            this.ProductID.Visible = false;
+            this.ProductID.Width = 250;
+            // 
             // label25
             // 
             this.label25.AutoSize = true;
             this.label25.Dock = System.Windows.Forms.DockStyle.Top;
             this.label25.Font = new System.Drawing.Font("Times New Roman", 14.1F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label25.ForeColor = System.Drawing.Color.Indigo;
+            this.label25.ForeColor = System.Drawing.Color.HotPink;
             this.label25.Location = new System.Drawing.Point(0, 0);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(232, 55);
             this.label25.TabIndex = 0;
             this.label25.Text = "Your Cart";
+            this.label25.Click += new System.EventHandler(this.label25_Click);
             // 
             // CartTimer
             // 
             this.CartTimer.Interval = 15;
             this.CartTimer.Tick += new System.EventHandler(this.CartTimer_Tick);
+            // 
+            // printDialog1
+            // 
+            this.printDialog1.UseEXDialog = true;
+            // 
+            // printDocument2
+            // 
+            this.printDocument2.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.printDocument2_PrintPage);
+            // 
+            // printPreviewDialog1
+            // 
+            this.printPreviewDialog1.AutoScrollMargin = new System.Drawing.Size(0, 0);
+            this.printPreviewDialog1.AutoScrollMinSize = new System.Drawing.Size(0, 0);
+            this.printPreviewDialog1.ClientSize = new System.Drawing.Size(400, 300);
+            this.printPreviewDialog1.Enabled = true;
+            this.printPreviewDialog1.Icon = ((System.Drawing.Icon)(resources.GetObject("printPreviewDialog1.Icon")));
+            this.printPreviewDialog1.Name = "printPreviewDialog1";
+            this.printPreviewDialog1.Visible = false;
+            this.printPreviewDialog1.Load += new System.EventHandler(this.printPreviewDialog1_Load);
             // 
             // CustomerForm
             // 
@@ -1448,12 +1561,14 @@ namespace TULIPS
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.SeaShell;
-            this.ClientSize = new System.Drawing.Size(2535, 1695);
+            this.ClientSize = new System.Drawing.Size(2857, 1691);
             this.Controls.Add(this.FlowLayoutPanel);
             this.Controls.Add(this.guna2Panel1);
             this.Name = "CustomerForm";
-            this.Text = "CustomerForm";
+            this.Text = "Cashier\'s Form";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CustomerForm_FormClosing);
             this.Load += new System.EventHandler(this.CustomerForm_Load);
+            this.Resize += new System.EventHandler(this.CustomerForm_Resize);
             this.guna2Panel1.ResumeLayout(false);
             this.guna2Panel1.PerformLayout();
             this.FlowLayoutPanel.ResumeLayout(false);
@@ -1512,25 +1627,11 @@ namespace TULIPS
 
         }
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
+  
 
-        private void PanelCart_Paint(object sender, PaintEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
+        
 
-        private void guna2GradientPanel3_Paint(object sender, PaintEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void label8_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
+        
 
         #endregion
 
@@ -1611,9 +1712,6 @@ namespace TULIPS
         private Guna.UI2.WinForms.Guna2PictureBox picBlueRose;
         private Guna.UI2.WinForms.Guna2Panel PanelCart;
         private System.Windows.Forms.DataGridView dgvCart;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ItemName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Quantity;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Price;
         private System.Windows.Forms.Label label25;
         private Guna.UI2.WinForms.Guna2Button btnCart;
         private Guna.UI2.WinForms.Guna2Button btnViewReceipt;
@@ -1622,6 +1720,17 @@ namespace TULIPS
         private Guna.UI2.WinForms.Guna2Button btnClearCart;
         private Guna.UI2.WinForms.Guna2Button btnPlaceOrder;
         private System.Windows.Forms.Label label26;
-        private Guna.UI2.WinForms.Guna2Button btnEditCart;
+        private Guna.UI2.WinForms.Guna2Button btnRemoveItem;
+        private Label label2;
+        private ComboBox cmbPaymentMethod;
+        private Label label1;
+        private MaskedTextBox txbAddress;
+        private PrintDialog printDialog1;
+        private System.Drawing.Printing.PrintDocument printDocument2;
+        private PrintPreviewDialog printPreviewDialog1;
+        private DataGridViewTextBoxColumn ItemName;
+        private DataGridViewTextBoxColumn Quantity;
+        private DataGridViewTextBoxColumn Price;
+        private DataGridViewTextBoxColumn ProductID;
     }
 }

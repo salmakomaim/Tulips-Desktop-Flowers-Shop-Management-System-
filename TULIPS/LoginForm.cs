@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Security.Cryptography;
 
 namespace TULIPS
 {
@@ -18,35 +12,38 @@ namespace TULIPS
         public LoginForm()
         {
             InitializeComponent();
-
-
         }
-
+       
         private void LoginForm_Load(object sender, EventArgs e)
         {
-            
+            this.FormBorderStyle = FormBorderStyle.Sizable;
 
+            // Disable maximize button
+            this.MaximizeBox = true;
 
+            // Optional: allow minimize
+            this.MinimizeBox = true;
+
+            // Center the form on the screen
+            this.StartPosition = FormStartPosition.CenterScreen;
+
+            // Set the exact size you designed
+            this.Width =900;  // replace with your designer width
+            this.Height = 600;  // replace with your designer height
         }
 
-        private void welcome_label_Click(object sender, EventArgs e)
+        private void lblMessage_Click(object sender, EventArgs e)
         {
 
         }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void but_reset_Click(object sender, EventArgs e)
         {
-            this.AutoValidate = AutoValidate.Disable; // Temporarily disable validation
+            this.AutoValidate = AutoValidate.Disable;
             txb_userName.Text = "";
             txb_password.Text = "";
             lblMessage.Text = "";
-            errorProvider1.Clear(); // clear all error messages
-            this.AutoValidate = AutoValidate.EnableAllowFocusChange; // Re-enable validation
+            errorProvider1.Clear();
+            this.AutoValidate = AutoValidate.EnableAllowFocusChange;
         }
 
         private void but_login_Click(object sender, EventArgs e)
@@ -54,7 +51,7 @@ namespace TULIPS
             string username = txb_userName.Text.Trim();
             string password = txb_password.Text.Trim();
 
-            // Check empty fields
+            // 1. Validate inputs
             if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
             {
                 lblMessage.Text = "Please enter username and password.";
@@ -63,7 +60,6 @@ namespace TULIPS
                 return;
             }
 
-            // length password rules
             if (password.Length < 4 || !Regex.IsMatch(password, @"\d"))
             {
                 lblMessage.Text = "Password must be at least 4 characters and contain a number!";
@@ -72,7 +68,6 @@ namespace TULIPS
                 return;
             }
 
-            // Username validation
             if (username.Length < 3)
             {
                 lblMessage.Text = "Username must be at least 3 characters long.";
@@ -102,41 +97,21 @@ namespace TULIPS
             using (SqlConnection con = new SqlConnection(connString))
             {
                 con.Open();
-                string query = "SELECT Password, Role FROM Users WHERE Username=@u";
+
+                string query = "SELECT UserID, Password, Role FROM Users WHERE Username=@u";
                 SqlCommand cmd = new SqlCommand(query, con);
                 cmd.Parameters.AddWithValue("@u", username);
 
                 SqlDataReader reader = cmd.ExecuteReader();
 
-                if (reader.Read())
+                if (reader.Read()) // user exists
                 {
                     string dbPassword = reader["Password"].ToString();
                     string role = reader["Role"].ToString();
-
+                    int userId = Convert.ToInt32(reader["UserID"]); // ✅ fetch ID here
                     reader.Close();
 
-                    // Check if password is hashed (simple check)
-                    bool isHashed = dbPassword.Length == 64 && Regex.IsMatch(dbPassword, @"\A\b[0-9a-fA-F]+\b\Z");
-
-                    if (!isHashed)
-                    {
-                        // Hash the existing password
-                        string hashedAdminPassword = PasswordHasher.HashPassword(dbPassword);
-
-                        // Update database
-                        string updateQuery = "UPDATE Users SET Password=@p WHERE Username=@u";
-                        using (SqlCommand updateCmd = new SqlCommand(updateQuery, con))
-                        {
-                            updateCmd.Parameters.AddWithValue("@p", hashedAdminPassword);
-                            updateCmd.Parameters.AddWithValue("@u", username);
-                            updateCmd.ExecuteNonQuery();
-                        }
-
-                        dbPassword = hashedAdminPassword; // update the variable to continue login
-                    }
-
-                    // Now check login
-                    if (PasswordHasher.VerifyPassword(password, dbPassword))
+                    if (dbPassword == password)
                     {
                         if (role == "Admin")
                         {
@@ -145,8 +120,8 @@ namespace TULIPS
                         }
                         else
                         {
-                            CustomerForm customer = new CustomerForm(username);
-                            customer.Show();
+                            CustomerForm cashier = new CustomerForm(username, userId);
+                            cashier.Show();
                         }
                         this.Hide();
                     }
@@ -156,78 +131,109 @@ namespace TULIPS
                         lblMessage.ForeColor = Color.Red;
                         lblMessage.Visible = true;
                     }
+                }
+                else // auto-register new customer
+                {
+                    reader.Close();
 
+                    if (username.ToLower() == "admin")
+                    {
+                        lblMessage.Text = "This username is reserved. Please choose another.";
+                        lblMessage.ForeColor = Color.Red;
+                        lblMessage.Visible = true;
+                        return;
+                    }
+
+                    string insertQuery = "INSERT INTO Users (Username, Password, Role) OUTPUT INSERTED.UserID VALUES (@u, @p, 'Cashier')";
+                    SqlCommand insertCmd = new SqlCommand(insertQuery, con);
+                    insertCmd.Parameters.AddWithValue("@u", username);
+                    insertCmd.Parameters.AddWithValue("@p", password);
+
+                    try
+                    {
+                        int newCashierId = Convert.ToInt32(insertCmd.ExecuteScalar()); // ✅ capture new ID
+
+                        lblMessage.Text = "Registration successful! Logging you in...";
+                        lblMessage.ForeColor = Color.Green;
+                        lblMessage.Visible = true;
+
+                        CustomerForm cashier = new CustomerForm(username, newCashierId);
+                        cashier.Show();
+                        this.Hide();
+                    }
+                    catch (SqlException ex)
+                    {
+                        if (ex.Number == 2627) // unique constraint violation
+                        {
+                            lblMessage.Text = "Username already exists. Please choose another.";
+                            lblMessage.ForeColor = Color.Red;
+                            lblMessage.Visible = true;
+                        }
+                        else
+                        {
+                            lblMessage.Text = "Database error: " + ex.Message;
+                            lblMessage.ForeColor = Color.Red;
+                            lblMessage.Visible = true;
+                        }
+
+                        
+
+                    }
                 }
             }
-            }
-        
-                
-            
-        
-
-        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
-            {
-                Application.Exit();
-            }
-
-            private void but_close_Click(object sender, EventArgs e)
-            {
-                this.Close();
-            }
-
-       
-
-        private void label5_Click(object sender, EventArgs e)
-        {
-
         }
 
-        private void lblMessage_Click(object sender, EventArgs e)
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            Application.Exit();
+        }
 
+        private void but_close_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
 
         private void txb_userName_TextChanged(object sender, EventArgs e)
-{
-    lblMessage.Visible = false;
-}
+        {
+            lblMessage.Visible = false;
+        }
 
         private void txb_password_TextChanged(object sender, EventArgs e)
         {
-    lblMessage.Visible = false;
-}
+            lblMessage.Visible = false;
+        }
 
         private void txb_userName_Validating(object sender, CancelEventArgs e)
         {
-            if (this.AutoValidate == AutoValidate.Disable) return; // allow reset to skip validation
+            if (this.AutoValidate == AutoValidate.Disable) return;
 
             string error = null;
             if (((Control)sender).Text.Trim().Length == 0)
             {
                 error = "This field is required";
-                e.Cancel = true; // stop leaving if empty
+                e.Cancel = true;
             }
             errorProvider1.SetError((Control)sender, error);
-        }
-
-        private void label4_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void txb_password_validating(object sender, CancelEventArgs e)
         {
-            if (this.AutoValidate == AutoValidate.Disable) return; // allow reset to skip validation
+            if (this.AutoValidate == AutoValidate.Disable) return;
 
             string error = null;
             if (((Control)sender).Text.Trim().Length == 0)
             {
                 error = "This field is required";
-                e.Cancel = true; // stop leaving if empty
+                e.Cancel = true;
             }
             errorProvider1.SetError((Control)sender, error);
         }
-    }
-    }
-    
 
+        private void LoginForm_Resize(object sender, EventArgs e)
+        {
+            this.Resize += LoginForm_Resize;
+            loginPanel.Left = (this.ClientSize.Width - loginPanel.Width) / 2;
+            loginPanel.Top = (this.ClientSize.Height - loginPanel.Height) / 2;
+        }
+    }
+}

@@ -31,7 +31,7 @@ namespace TULIPS
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginForm));
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.loginPanel = new System.Windows.Forms.Panel();
             this.but_close = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.lblMessage = new System.Windows.Forms.Label();
@@ -43,30 +43,30 @@ namespace TULIPS
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
-            this.panel1.SuspendLayout();
+            this.loginPanel.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
-            // panel1
+            // loginPanel
             // 
-            this.panel1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.panel1.AutoScroll = true;
-            this.panel1.BackColor = System.Drawing.Color.White;
-            this.panel1.Controls.Add(this.but_close);
-            this.panel1.Controls.Add(this.groupBox1);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(381, 126);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1057, 764);
-            this.panel1.TabIndex = 1;
+            this.loginPanel.AutoScroll = true;
+            this.loginPanel.BackColor = System.Drawing.Color.White;
+            this.loginPanel.Controls.Add(this.but_close);
+            this.loginPanel.Controls.Add(this.groupBox1);
+            this.loginPanel.Controls.Add(this.label1);
+            this.loginPanel.Location = new System.Drawing.Point(396, 132);
+            this.loginPanel.Margin = new System.Windows.Forms.Padding(0);
+            this.loginPanel.Name = "loginPanel";
+            this.loginPanel.Size = new System.Drawing.Size(1226, 864);
+            this.loginPanel.TabIndex = 1;
             // 
             // but_close
             // 
             this.but_close.BackColor = System.Drawing.Color.Transparent;
             this.but_close.Font = new System.Drawing.Font("Tahoma", 9.900001F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.but_close.ForeColor = System.Drawing.Color.Red;
-            this.but_close.Location = new System.Drawing.Point(964, 17);
+            this.but_close.Location = new System.Drawing.Point(1143, 3);
             this.but_close.Name = "but_close";
             this.but_close.Size = new System.Drawing.Size(80, 73);
             this.but_close.TabIndex = 4;
@@ -84,9 +84,10 @@ namespace TULIPS
             this.groupBox1.Controls.Add(this.txb_password);
             this.groupBox1.Controls.Add(this.but_login);
             this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Location = new System.Drawing.Point(44, 162);
+            this.groupBox1.Location = new System.Drawing.Point(107, 201);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(965, 552);
+            this.groupBox1.Size = new System.Drawing.Size(980, 559);
             this.groupBox1.TabIndex = 7;
             this.groupBox1.TabStop = false;
             // 
@@ -178,7 +179,7 @@ namespace TULIPS
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Mistral", 26.1F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.HotPink;
-            this.label1.Location = new System.Drawing.Point(409, 44);
+            this.label1.Location = new System.Drawing.Point(496, 47);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(194, 105);
             this.label1.TabIndex = 0;
@@ -193,18 +194,20 @@ namespace TULIPS
             this.AcceptButton = this.but_login;
             this.AutoScaleDimensions = new System.Drawing.SizeF(15F, 33F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(1873, 1177);
-            this.Controls.Add(this.panel1);
+            this.ClientSize = new System.Drawing.Size(2010, 1177);
+            this.Controls.Add(this.loginPanel);
             this.MinimumSize = new System.Drawing.Size(800, 600);
             this.Name = "LoginForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "LoginForm";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.LoginForm_Load);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.Resize += new System.EventHandler(this.LoginForm_Resize);
+            this.loginPanel.ResumeLayout(false);
+            this.loginPanel.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
@@ -214,7 +217,7 @@ namespace TULIPS
 
         #endregion
 
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel loginPanel;
         private System.Windows.Forms.TextBox txb_password;
         private System.Windows.Forms.TextBox txb_userName;
         private System.Windows.Forms.Label label3;

@@ -89,7 +89,7 @@ namespace TULIPS
 
         private void label1_Click(object sender, EventArgs e)
         {
-
+            BringToFront();
         }
 
         private void btnLogout_Click(object sender, EventArgs e)
@@ -143,6 +143,16 @@ namespace TULIPS
 
         private void btnAddProduct_Click(object sender, EventArgs e)
         {
+            // Example: Let user select CSV to add multiple products
+            openFileDialog1.Filter = "CSV files (*.csv)|*.csv|All files (*.*)|*.*";
+
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                string filePath = openFileDialog1.FileName;
+                // Load CSV data into dgvProducts or process it for adding products
+            }
+
+            // Or continue with normal Add Product functionality
             try
             {
                 string Name = InputBox.Show("Enter product name:");
@@ -225,7 +235,7 @@ namespace TULIPS
                 cmd.ExecuteNonQuery();
             }
 
-            LoadProducts();  // refresh grid
+        LoadProducts();  // refresh grid
         }
 
         public static class InputBox
@@ -454,6 +464,25 @@ namespace TULIPS
 
         private void btnUpdateStock_Click(object sender, EventArgs e)
         {
+            // Import updated stock
+            openFileDialog1.Filter = "CSV files (*.csv)|*.csv|All files (*.*)|*.*";
+
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                string filePath = openFileDialog1.FileName;
+                // Update product stock from CSV
+            }
+
+            // Or export current stock
+            saveFileDialog1.Filter = "CSV files (*.csv)|*.csv|All files (*.*)|*.*";
+
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                string filePath = saveFileDialog1.FileName;
+                // Save current stock to CSV
+            }
+        
+
             try
             {
                 if (dgvProducts.CurrentRow == null)
@@ -504,6 +533,14 @@ namespace TULIPS
 
         private void btnGenerateInvoice_Click(object sender, EventArgs e)
         {
+            openFileDialog1.Filter = "CSV files (*.csv)|*.csv|All files (*.*)|*.*";
+
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                string filePath = openFileDialog1.FileName;
+                // Load CSV data into dgvProducts or process it for adding products
+            }
+
             if (dgvOrders.SelectedRows.Count == 0)
             {
                 MessageBox.Show("Please select an order first.");
@@ -512,7 +549,7 @@ namespace TULIPS
 
             // Get order data from selected row
             int orderId = Convert.ToInt32(dgvOrders.SelectedRows[0].Cells["OrderID"].Value);
-            string customerId = dgvOrders.SelectedRows[0].Cells["CustomerID"].Value.ToString();
+            string cashierId = dgvOrders.SelectedRows[0].Cells["CashierID"].Value.ToString();
             string date = dgvOrders.SelectedRows[0].Cells["OrderDate"].Value.ToString();
             string payment = dgvOrders.SelectedRows[0].Cells["PaymentMethod"].Value.ToString();
             string status = dgvOrders.SelectedRows[0].Cells["Status"].Value.ToString();
@@ -522,7 +559,7 @@ namespace TULIPS
             receiptText = $"TULIPS FLOWER SHOP\n";
             receiptText += $"-----------------------------\n";
             receiptText += $"Order ID: {orderId}\n";
-            receiptText += $"Customer ID: {customerId}\n";
+            receiptText += $"Cashier ID: {cashierId}\n";
             receiptText += $"Date: {date}\n";
             receiptText += $"Payment: {payment}\n";
             receiptText += $"Status: {status}\n";
@@ -592,7 +629,7 @@ namespace TULIPS
                     {
                         MessageBox.Show(
                             $"OrderID: {reader["OrderID"]}\n" +
-                            $"CustomerID: {reader["CustomerID"]}\n" +
+                            $"CashierID: {reader["CashierID"]}\n" +
                             $"OrderDate: {reader["OrderDate"]}\n" +
                             $"DeliveryAddress: {reader["DeliveryAddress"]}\n" +
                             $"PaymentMethod: {reader["PaymentMethod"]}\n" +
@@ -616,7 +653,18 @@ namespace TULIPS
 
         private void AdminForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Application.Exit();
+       
+            Environment.Exit(0);
+        }
+
+        private void printPreviewDialog1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pnlMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            
         }
     }
 
