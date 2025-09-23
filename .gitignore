@@ -1,7 +1,22 @@
-# Visual Studio
-.vs/
-*.suo
+# Ignore build output
+bin/
+obj/
+
+# Ignore packages
+packages/
+
+# User-specific files
 *.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Resharper
+_ReSharper*/
+*.DotSettings.user
+
+# VS Code
+.vscode/
 
 # Build folders
 bin/
